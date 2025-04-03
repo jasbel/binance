@@ -11,6 +11,8 @@
   "description": "",
   "dependencies": {
     "axios": "^1.7.9",
-    "crypto": "^1.0.1"
+    "ccxt": "^4.4.62",
+    "crypto": "^1.0.1",
+    "technicalindicators": "^3.1.0"
   }
 }
