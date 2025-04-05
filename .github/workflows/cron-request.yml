@@ -1,0 +1,12 @@
+name: Scheduled Request to API
+
+on:
+  schedule:
+    - cron: '*/1 * * * *'  # cada 10 minutos (UTC)
+
+jobs:
+  call-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make GET request
+        run: curl https://binance-hezu.onrender.com/capture
