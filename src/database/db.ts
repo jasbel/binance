@@ -1,12 +1,21 @@
 import path from "path";
 import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
 
+dotenv.config();
 
-const DB_PATH = path.join("database.sqlite");
+const dbConfig = {
+  pass: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  name: process.env.DB_NAME,
+  port: process.env.DB_PORT,
+}
+const {pass, name, host, port} = dbConfig;
 
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: DB_PATH,
+const DATABASE_URL = `postgresql://postgres:${pass}@${host}:${port}/${name}`;
+
+const sequelize = new Sequelize(DATABASE_URL, {
+  dialect: "postgres",
   logging: false,
 });
 
