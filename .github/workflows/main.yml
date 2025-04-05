@@ -1,0 +1,13 @@
+name: Scheduled Request to API BINANCE
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # cada 5 minutos (tu comentario dice 10, pero el cron es 5)
+  workflow_dispatch:
+
+jobs:
+  call-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make GET request
+        run: curl https://binance-hezu.onrender.com/capture
