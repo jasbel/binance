@@ -9,10 +9,11 @@ const dbConfig = {
   host: process.env.DB_HOST,
   name: process.env.DB_NAME,
   port: process.env.DB_PORT,
+  platform: process.env.DB_PLATFORM,
 }
-const {pass, name, host, port} = dbConfig;
+const {pass, name, host, port, platform} = dbConfig;
 
-const DATABASE_URL = `postgresql://postgres:${pass}@${host}:${port}/${name}`;
+const DATABASE_URL = `postgresql://${platform}:${pass}@${host}/${name}`;
 
 const sequelize = new Sequelize(DATABASE_URL, {
   dialect: "postgres",
