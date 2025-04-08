@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gráfico Vue + Chart.js</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    canvas { max-width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>Precio vs Fecha de Creación</h2>
+    <canvas ref="canvas"></canvas>
+  </div>
+
+  <script>
+    const rawData = <%- data %>;
+
+    const { createApp, onMounted, ref } = Vue;
+
+    createApp({
+      setup() {
+        const canvas = ref(null);
+
+        onMounted(() => {
+          const labels = rawData.map(item => item.createdAt);
+          const prices = rawData.map(item => item.price);
+
+          new Chart(canvas.value, {
+            type: 'line',
+            data: {
+              labels,
+              datasets: [{
+                label: 'Precio',
+                data: prices,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.3
+              }]
+            },
+            options: {
+              scales: {
+                x: { title: { display: true, text: 'Fecha' } },
+                y: { title: { display: true, text: 'Precio' } }
+              }
+            }
+          });
+        });
+
+        return { canvas };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
