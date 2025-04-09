@@ -2,7 +2,7 @@ name: Scheduled Request to API
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # cada 10 minutos (UTC)
+    - cron: '*/12 * * * *'
 
 jobs:
   call-api:
