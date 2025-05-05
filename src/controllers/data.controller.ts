@@ -11,6 +11,8 @@ export const getPrices = async (_: Request, res: Response) => {
   res.json(prices);
 };
 export const getGrafic = async (_: Request, res: Response) => {
+  const {items = '100'} = _.query
+
   const formatFecha = (fechaStr: string) => {
     const dias = ["D", "L", "M", "X", "J", "V", "S"]; // Domingo a Sábado
     const fecha = new Date(fechaStr)
@@ -35,9 +37,9 @@ export const getGrafic = async (_: Request, res: Response) => {
   return `${diaSemana} (${diaMes}) ${horas}:${minutos}`;
   };
 
-  const prices = await Price.findAll({ order: [["createdAt", "DESC"]], limit: 100 });
+  const prices = await Price.findAll({ order: [["createdAt", "DESC"]], limit: Number(items) });
 
   const pricesArr = prices.map((it) => it.dataValues).map(it=> ({...it, createdAt: formatFecha(it.createdAt)}));
 
-  res.render("grafico", { data: JSON.stringify(pricesArr) });
+  res.render("grafico", { data: JSON.stringify(pricesArr), items: Number(items) });
 };
