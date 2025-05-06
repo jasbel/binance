@@ -11,11 +11,11 @@ export const getPrices = async (_: Request, res: Response) => {
   res.json(prices);
 };
 export const getGrafic = async (_: Request, res: Response) => {
-  const {items = '100'} = _.query
+  const { items = "100" } = _.query;
 
   const formatFecha = (fechaStr: string) => {
     const dias = ["D", "L", "M", "X", "J", "V", "S"]; // Domingo a Sábado
-    const fecha = new Date(fechaStr)
+    const fecha = new Date(fechaStr);
 
     const formatter = new Intl.DateTimeFormat("es-BO", {
       timeZone: "America/La_Paz",
@@ -26,20 +26,20 @@ export const getGrafic = async (_: Request, res: Response) => {
       hour12: false,
     });
     const parts = formatter.formatToParts(fecha);
-  const map = Object.fromEntries(parts.map(p => [p.type, p.value]));
+    const map = Object.fromEntries(parts.map((p) => [p.type, p.value]));
 
-  // Extraer los datos que te interesan
-  const diaSemana = map.weekday.charAt(0).toUpperCase(); // ej. 'L' para lunes
-  const diaMes = map.day;
-  const horas = map.hour;
-  const minutos = map.minute;
+    // Extraer los datos que te interesan
+    let diaSemana = map.weekday.includes("mié") ? "X" : map.weekday.charAt(0).toUpperCase(); // ej. 'L' para lunes
+    const diaMes = map.day;
+    const horas = map.hour;
+    const minutos = map.minute;
 
-  return `${diaSemana} (${diaMes}) ${horas}:${minutos}`;
+    return `${diaSemana} (${diaMes}) ${horas}:${minutos}`;
   };
 
   const prices = await Price.findAll({ order: [["createdAt", "DESC"]], limit: Number(items) });
 
-  const pricesArr = prices.map((it) => it.dataValues).map(it=> ({...it, createdAt: formatFecha(it.createdAt)}));
+  const pricesArr = prices.map((it) => it.dataValues).map((it) => ({ ...it, createdAt: formatFecha(it.createdAt) }));
 
   res.render("grafico", { data: JSON.stringify(pricesArr), items: Number(items) });
 };
