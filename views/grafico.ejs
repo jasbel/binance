@@ -1,24 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
-  <title>Gráfico Vue + Chart.js</title>
+  <title>Gráfico Binance</title>
   <script src="https://unpkg.com/vue@3"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    canvas { max-width: 100%; }
+    canvas {
+      max-width: 100%;
+    }
   </style>
 </head>
+
 <body>
   <div id="app">
-    <h2>Precio vs Fecha de Creación Gary</h2>
+    <h2>Precio vs Fecha de Creación</h2>
     <div style="<% if(items > 100){ %> width: <%=items%>vw; overflow-x: scroll; <% } %>">
       <canvas ref="canvas"></canvas>
     </div>
   </div>
 
+  <footer style=" position: fixed; bottom: 0;">
+    <p>
+      Hecho por:
+      <a href="https://asbel.dev">asbel.dev</a>
+    </p>
+  </footer>
+
   <script>
-    const rawData = <%- data %>;
+    const rawData = <% - data %>;
 
     const { createApp, onMounted, ref } = Vue;
 
@@ -55,4 +66,5 @@
     }).mount('#app');
   </script>
 </body>
+
 </html>
