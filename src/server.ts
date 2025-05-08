@@ -3,7 +3,7 @@ import app from "./app";
 
 const PORT = process.env.PORT || 3000;
 
-sequelize.sync().then((res) => {
+sequelize.sync(/* { alter: true } */).then((res) => {
     console.log("📦 Base de datos lista "
     );
     app.listen(PORT, () => console.log(`🚀 Servidor en http://localhost:${PORT}`));

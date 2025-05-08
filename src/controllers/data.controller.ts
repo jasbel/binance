@@ -2,8 +2,11 @@ import { Request, Response } from "express";
 import { capturePrice, Price } from "../cron";
 
 export const getCapture = async (_: Request, res: Response) => {
-  const currentInfo = await capturePrice();
-  res.json({ ok: "generate", data: currentInfo });
+  const { origin = "" } = _.query;
+
+  const date = new Date();
+  const currentInfo = await capturePrice(<string>origin);
+  res.json({ ok: "generate", price: currentInfo, origin: origin, date });
 };
 
 export const getPrices = async (_: Request, res: Response) => {
@@ -29,7 +32,7 @@ export const getGrafic = async (_: Request, res: Response) => {
     const map = Object.fromEntries(parts.map((p) => [p.type, p.value]));
 
     // Extraer los datos que te interesan
-    let diaSemana = map.weekday.includes("mié") ? "X" : map.weekday.charAt(0).toUpperCase(); // ej. 'L' para lunes
+    let diaSemana = map.weekday.includes("mié") ? "Mi" : map.weekday.charAt(0).toUpperCase();
     const diaMes = map.day;
     const horas = map.hour;
     const minutos = map.minute;
