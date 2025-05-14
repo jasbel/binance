@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { capturePrice, Price } from "../cron";
+import { capturePrice, createPrice, Price } from "../cron";
 
 export const getCapture = async (_: Request, res: Response) => {
   const { origin = "" } = _.query;
@@ -7,6 +7,14 @@ export const getCapture = async (_: Request, res: Response) => {
   const date = new Date();
   const currentInfo = await capturePrice(<string>origin);
   res.json({ ok: "generate", price: currentInfo, origin: origin, date });
+};
+
+export const addPrice = async (_: Request, res: Response) => {
+  const { origin = "", price = "0" } = _.query;
+
+  const _date = new Date();
+  const _price = await createPrice(Number(price), <string>origin);
+  res.json({ ok: "generate", price: _price, origin: origin, date: _date });
 };
 
 export const getPrices = async (_: Request, res: Response) => {

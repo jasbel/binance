@@ -10,11 +10,17 @@ const Price = sequelize.define("Price", {
 const capturePrice = async (origin: string) => {
   const price = await getBestSellPrice();
   if (price) {
-    await Price.create({ price, origin});
-    console.log(`✅ Precio guardado: ${price}`);
+    await createPrice(price, origin);
   }
 
   return price;
 };
 
-export { capturePrice, Price };
+const createPrice = async (price: number, origin: string) => {
+  await Price.create({ price, origin });
+  console.log(`✅ Precio guardado: ${price}`);
+
+  return price;
+};
+
+export { capturePrice, createPrice, Price };
